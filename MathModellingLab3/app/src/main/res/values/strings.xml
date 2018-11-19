@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MathModellingLab3</string>
+    <string name="function_calc_btn">Рассчитать</string>
+    <string name="function_page">Функция</string>
+    <string name="table_page">Таблица значений</string>
+    <string name="drawer_item_1">Стандартная функция Лапласа</string>
+    <string name="drawer_item_2">Ещё форма функции Лапласа</string>
+</resources>
