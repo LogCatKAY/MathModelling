@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">MathModellingLab1</string>
-
-    <string-array name="Lab1_point">
-        <item>Интерполяция</item>
-        <item>Обратная интерполяция</item>
-    </string-array>
-</resources>
