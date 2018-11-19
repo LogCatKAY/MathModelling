@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/et_x_fx_w"
+    android:background="@drawable/textview_table_style"
+    android:inputType="phone"
+    android:imeOptions="flagNoExtractUi"
+    android:textAlignment="center"
+    >
+
+</EditText>
