@@ -45,6 +45,7 @@ public class Lab3varTwoFragment extends Fragment implements CalculationThread.Ca
         mImageFormula.setImageResource(R.drawable.laplas2);
 
         mCalculateBtn = (Button) v.findViewById(R.id.btn_calculate);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
 
         //запускаем поток и инициализируем Looper
         mCalculationThread = new CalculationThread("Background ");
