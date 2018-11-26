@@ -5,35 +5,28 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.gauss.GaussIntegrator;
-import org.apache.commons.math3.analysis.integration.gauss.GaussIntegratorFactory;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.List;
-
-public class Lab3varOneFragment extends Fragment {
+public class Lab3varOneFragment extends Fragment implements CalculationThread.Callback{
 
     private ImageView mImageFormula;
     private EditText mEditNodes;
     private EditText mEditExpectedResult;
     private TextView mTextUpperBound;
     private Button mCalculateBtn;
+    private ProgressBar mProgressBar;
 
     private int mNodes;
     private double mExpectedResult;
-    private double mX;
-    private List<LaplasItem> mResultsFromTable;
+
+    private CalculationThread mCalculationThread;
 
     public static Lab3varOneFragment newInstance() {
         return new Lab3varOneFragment();
@@ -49,6 +42,14 @@ public class Lab3varOneFragment extends Fragment {
         mEditExpectedResult = (EditText) v.findViewById(R.id.et_f);
         mTextUpperBound = (TextView) v.findViewById(R.id.tv_upper_bound_result);
         mCalculateBtn = (Button) v.findViewById(R.id.btn_calculate);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+
+        //запускаем поток и инициализируем Looper
+        mCalculationThread = new CalculationThread("Background ");
+        mCalculationThread.start();
+        mCalculationThread.onLooperPrepared();
+        mCalculationThread.setCallback(this);
+        //теперь в фоновом потоке будет крутиться лупер и ждать задач
 
         mCalculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,21 +61,8 @@ public class Lab3varOneFragment extends Fragment {
                         Integer.parseInt(mEditNodes.getText().toString()) > 0) {
                     mExpectedResult = Double.parseDouble(mEditExpectedResult.getText().toString());
                     mNodes = Integer.parseInt(mEditNodes.getText().toString());
-                    mX = 0;
-                    double step = 0.01;
-                    double actualResult = 0;
-                    if(mExpectedResult == 0)
-                        mTextUpperBound.setText("0.00");
-                    else {
-                        while (mExpectedResult >= actualResult) {
-                            mX += step;
-                            actualResult = calculateIntegral(mNodes, mX);
-                        }
-//                        DecimalFormat df = new DecimalFormat("#.##");
-//                        df.setRoundingMode(RoundingMode.HALF_UP);
-//                        mTextUpperBound.setText(String.valueOf(df.format(mX)));
-                        mTextUpperBound.setText(String.valueOf(mX));
-                    }
+
+                    mCalculationThread.startOperation_varOne();
                 }
             }
         });
@@ -83,14 +71,36 @@ public class Lab3varOneFragment extends Fragment {
         return v;
     }
 
-    private double calculateIntegral(int nodes, double xUpperBound) {
-        GaussIntegratorFactory integratorFactory = new GaussIntegratorFactory();
-        UnivariateFunction fun = new UnivariateFunction() {
-            public double value(double v) {
-                return Math.exp(-(Math.pow(v, 2) / 2));
-            }
-        };
-        GaussIntegrator gaussIntegrator = integratorFactory.legendre(nodes, 0, xUpperBound);
-        return gaussIntegrator.integrate(fun) * (1 / Math.sqrt(2 * Math.PI));
+    @Override
+    public int getNodes() {
+        return mNodes;
+    }
+
+    @Override
+    public double getExpectedResult() {
+        return mExpectedResult;
+    }
+
+    @Override
+    public void sendResult(double result) {
+        mTextUpperBound.setText(String.valueOf(result));
+    }
+
+    @Override
+    public void sendProgress(boolean isRunning) {
+        if(isRunning) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mCalculateBtn.setClickable(false);
+            mTextUpperBound.setText("Рассчитывается...");
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+            mCalculateBtn.setClickable(true);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mCalculationThread.quit();
+        super.onDestroy();
     }
 }

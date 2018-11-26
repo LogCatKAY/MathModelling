@@ -61,6 +61,11 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/function_calc_btn"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyle"
+                android:visibility="gone" />
         </TableRow>
 
         <TableRow>
