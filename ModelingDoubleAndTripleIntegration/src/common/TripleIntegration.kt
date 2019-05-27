@@ -138,7 +138,9 @@ fun simpsonTriple(
                         function.getFunction(a+2*(i+1)*h1,c+2*j*h2, e+2*(k+1)*h3) +
                         function.getFunction(a+2*i*h1,c+2*(j+1)*h2, e+2*(k+1)*h3) +
                         function.getFunction(a+2*(i+1)*h1,c+2*(j+1)*h2, e+2*(k+1)*h3)) +
-                        4 * (function.getFunction(a+(2*i+1)*h1,c+2*j*h2, e+2*k*h3) +
+                        4 * (function.getFunction(a+2*i*h1,c+(2*j+1)*h2, e+2*(k+1)*h3) +
+                        function.getFunction(a+2*(i+1)*h1,c+(2*j+1)*h2, e+2*(k+1)*h3) +
+                        function.getFunction(a+(2*i+1)*h1,c+2*j*h2, e+2*k*h3) +
                         function.getFunction(a+2*i*h1,c+(2*j+1)*h2, e+2*k*h3) +
                         function.getFunction(a+2*(i+1)*h1,c+(2*j+1)*h2, e+2*k*h3) +
                         function.getFunction(a+(2*i+1)*h1,c+2*(j+1)*h2, e+2*k*h3) +
@@ -147,14 +149,12 @@ fun simpsonTriple(
                         function.getFunction(a+2*i*h1,c+2*(j+1)*h2, e+(2*k+1)*h3) +
                         function.getFunction(a+2*(i+1)*h1,c+2*(j+1)*h2, e+(2*k+1)*h3) +
                         function.getFunction(a+(2*i+1)*h1,c+2*j*h2, e+2*(k+1)*h3) +
-                        function.getFunction(a+2*i*h1,c+(2*j+1)*h2, e+2*(k+1)*h3) +
-                        function.getFunction(a+2*(i+1)*h1,c+(2*j+1)*h2, e+2*(k+1)*h3) +
                         function.getFunction(a+(2*i+1)*h1,c+2*(j+1)*h2, e+2*(k+1)*h3)) +
-                        16 * (function.getFunction(a+(2*i+1)*h1,c+(2*j+1)*h2, e+2*k*h3) +
+                        16 * (function.getFunction(a+(2*i+1)*h1,c+(2*j+1)*h2, e+2*(k+1)*h3) +
+                        function.getFunction(a+(2*i+1)*h1,c+(2*j+1)*h2, e+2*k*h3) +
                         function.getFunction(a+(2*i+1)*h1,c+2*j*h2, e+(2*k+1)*h3) +
                         function.getFunction(a+2*i*h1,c+(2*j+1)*h2, e+(2*k+1)*h3) +
                         function.getFunction(a+2*(i+1)*h1,c+(2*j+1)*h2, e+(2*k+1)*h3) +
-                        function.getFunction(a+(2*i+1)*h1,c+(2*j+1)*h2, e+2*(k+1)*h3) +
                         function.getFunction(a+(2*i+1)*h1,c+2*(j+1)*h2, e+(2*k+1)*h3)) +
                         64 * function.getFunction(a+(2*i+1)*h1,c+(2*j+1)*h2, e+(2*k+1)*h3))
             }
